@@ -1,0 +1,7 @@
+environments:
+  - name: my-project-prod
+    previewsEnabled: false
+    
+  - name: my-project-staging
+    previewsEnabled: true
+    
