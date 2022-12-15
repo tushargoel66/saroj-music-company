@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Saroj Music Company</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script> 
+<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-analytics.js"></script>
+
+<style>
+    /* Full-width input fields */
+    input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    }
+
+    /* Set a style for all buttons */
+    button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    }
+
+    button:hover {
+    opacity: 0.8;
+    }
+
+    /* Extra styles for the cancel button */
+    .cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+    }
+
+    /* Center the image and position the close button */
+    .imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+    }
+
+    img.avatar {
+    width: 40%;
+    border-radius: 50%;
+    }
+
+    .container {
+    padding: 16px;
+    }
+
+    span.psw {
+    float: right;
+    padding-top: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+    background-color: #000;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #000;
+    width: 50%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button (x) */
+    .close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+    color: red;
+    cursor: pointer;
+    }
+
+    /* Add Zoom Animation */
+    .animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+    }
+
+    @-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+    }
+    
+    @keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+    .cancelbtn {
+        width: 100%;
+    }
+    }
+
+
+</style>
+
+<body bgcolor="black">
+
+<!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-black w3-card">
+      <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+      <a href="/" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+      <a href="/#aboutus" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ABOUT US</a>
+      <a href="/music" class="w3-bar-item w3-button w3-padding-large w3-hide-small">MUSIC</a>
+      <a href="/#contact" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONTACT</a>
+      <!-- TODO : MAKE A DROP DOWN -->
+      <!-- <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-padding-large w3-button" title="More">MORE <i class="fa fa-caret-down"></i></button>     
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+          <a href="#" class="w3-bar-item w3-button">Merchandise</a>
+          <a href="#" class="w3-bar-item w3-button">Extras</a>
+          <a href="#" class="w3-bar-item w3-button">Media</a>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+  <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+    <a href="/#aboutus" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">ABOUT US</a>
+    <a href="/music" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MUSIC</a>
+    <a href="/#contact" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONTACT</a>
+  </div>
+  <font color="#cfb53b">
+  <!-- Page content -->
+  <div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+    <!-- File Upload -->
+    <div class="modal-content animate">
+
+        <div class="imgcontainer">
+          <img src="/images/upload.png" alt="Avatar" class="avatar">
+        </div>
+        <div class="container">
+            <center><p id="per"></p><progress id="uploader" value="0" max="100">0%</progress><br></center>
+            <label for="uname"><b>Choose a file</b></label><br><br>
+            <input type="file" id="file" accept="video/mp4"> <br><br>
+            <button type="submit" onclick="upload()">Upload</button>
+        </div>
+    </div>
+  </div>
+</font>
+
+</body>
+
+<script>
+    var file
+    document.getElementById('file').addEventListener('change',(e)=>{
+        file=e.target.files[0]
+        console.log(e)
+    })
+    function upload(){
+        var firebaseConfig = {
+        apiKey: "AIzaSyAwNuvdhmAR5VTcVHa4s-4l3JFkaKifsxk",
+            authDomain: "saroj-music-company.firebaseapp.com",
+            databaseURL: "https://saroj-music-company.firebaseio.com",
+            projectId: "saroj-music-company",
+            storageBucket: "saroj-music-company.appspot.com",
+            messagingSenderId: "863719802366",
+            appId: "1:863719802366:web:c6fe68e5ff0b42c54d6caf",
+            measurementId: "G-04L9ZH6NWX"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig); 
+        var storageRef = firebase.storage().ref('vid/'+file.name);
+        var task = storageRef.put(file);
+        task.on('state_changed', function progress(snapshot) {
+            var percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+            uploader.value = percentage;
+            document.getElementById('per').innerText=Math.ceil(percentage)+'% Done'
+        }, function error(err) {
+            alert('An Error Occured!!!')
+
+        },function complete() {
+            alert('Completed!!!')
+        });
+    }
+</script>
+
+</html>

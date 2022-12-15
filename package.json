@@ -1,0 +1,18 @@
+{
+  "name": "saroj_music_company",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "saroj_music_company",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "firebase": "^7.23.0",
+    "js-sha512": "^0.8.0",
+    "path": "^0.12.7"
+  }
+}
